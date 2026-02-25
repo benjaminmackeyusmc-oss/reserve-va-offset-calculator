@@ -1,4 +1,4 @@
 {
-  "installCommand": "corepack enable && pnpm install",
-  "buildCommand": "pnpm --filter web-pwa build"
+  "installCommand": "npm install",
+  "buildCommand": "npm run build"
 }
