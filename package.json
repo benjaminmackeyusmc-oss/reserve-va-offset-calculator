@@ -1,13 +1,12 @@
 {
-  "name": "@rvo/calc-engine",
-  "version": "0.1.0",
-  "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "name": "reserve-va-offset-calculator",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "build": "tsc -p tsconfig.json"
-  },
-  "devDependencies": {
-    "typescript": "^5.5.4"
+    "build": "npm run build -w @rvo/calc-engine && npm run build -w web-pwa",
+    "dev": "npm run dev -w web-pwa"
   }
 }
