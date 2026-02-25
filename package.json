@@ -6,7 +6,6 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build -w @rvo/calc-engine && npm run build -w web-pwa",
-    "dev": "npm run dev -w web-pwa"
-  }
+  "build": "npm run build -w ./packages/calc-engine && npm run build -w ./apps/web-pwa",
+  "dev": "npm run dev -w web-pwa"
 }
