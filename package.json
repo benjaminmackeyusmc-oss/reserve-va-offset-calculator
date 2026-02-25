@@ -1,12 +1,15 @@
 {
   "name": "reserve-va-offset-calculator",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "type": "module",
   "scripts": {
-    "build": "npm run build -w ./packages/calc-engine && npm run build -w ./apps/web-pwa",
-    "dev": "npm run dev -w ./apps/web-pwa"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "^14.2.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   }
 }
