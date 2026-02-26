@@ -2,7 +2,7 @@
 
 Mobile-friendly (PWA-style) web calculator to estimate VA offset/recoupment vs Reserve drill/AT pay.
 
-## MVP
+## MVP.
 Inputs:
 - VA monthly ($)
 - Military monthly base pay ($)
