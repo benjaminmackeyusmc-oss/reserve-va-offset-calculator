@@ -1,7 +1,46 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { estimateOffset } from "@rvo/calc-engine";
+
+function round2(n: number): number {
+  return Math.round((n + Number.EPSILON) * 100) / 100;
+}
+
+function estimateOffset(params: {
+  vaMonthly: number;
+  milMonthlyBasePay: number;
+  utaCount: number;
+  activeDutyDays: number;
+}) {
+  const { vaMonthly, milMonthlyBasePay } = params;
+  const utaCount = Math.max(0, Math.floor(params.utaCount));
+  const activeDutyDays = Math.max(0, Math.floor(params.activeDutyDays));
+
+  const waiverDays = utaCount + activeDutyDays;
+  const vaDaily = vaMonthly / 30.0;
+  const milDaily = milMonthlyBasePay / 30.0;
+
+  const vaRecoupmentEstimated = vaDaily * waiverDays;
+  const milGrossEarnedEstimated = milDaily * waiverDays;
+  const netAdvantageGross = milGrossEarnedEstimated - vaRecoupmentEstimated;
+
+  const breakEvenVaMonthly = milDaily * 30.0;
+
+  let recommendation: "TAKE_MIL_PAY" | "WAIVE_MIL_PAY" | "EITHER" = "EITHER";
+  if (netAdvantageGross > 0.01) recommendation = "TAKE_MIL_PAY";
+  else if (netAdvantageGross < -0.01) recommendation = "WAIVE_MIL_PAY";
+
+  return {
+    waiverDays,
+    vaDaily: round2(vaDaily),
+    milDaily: round2(milDaily),
+    vaRecoupmentEstimated: round2(vaRecoupmentEstimated),
+    milGrossEarnedEstimated: round2(milGrossEarnedEstimated),
+    netAdvantageGross: round2(netAdvantageGross),
+    recommendation,
+    breakEvenVaMonthly: round2(breakEvenVaMonthly)
+  };
+}
 
 function n2(v: number) {
   if (!Number.isFinite(v)) return "";
@@ -20,8 +59,8 @@ export default function Page() {
       return estimateOffset({
         vaMonthly,
         milMonthlyBasePay,
-        utaCount: Math.max(0, Math.floor(utaCount)),
-        activeDutyDays: Math.max(0, Math.floor(activeDutyDays))
+        utaCount,
+        activeDutyDays
       });
     } catch {
       return null;
